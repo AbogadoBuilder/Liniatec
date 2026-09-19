@@ -1,303 +1,596 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Reporte a WhatsApp</title>
-  <style>
-    * {
-      box-sizing: border-box;
-    }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Reporte a WhatsApp</title>
+<style>
+  * { box-sizing: border-box; }
 
-    body {
-      font-family: system-ui, -apple-system, sans-serif;
-      max-width: 600px;
-      margin: 0 auto;
-      padding: 20px;
-      background: #f9f9f9;
-      color: #333;
-    }
+  body {
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 24px 16px 60px;
+    background: #f4f6f8;
+    color: #1f2937;
+    line-height: 1.5;
+  }
 
-    h1 {
-      font-size: 24px;
-      margin-bottom: 20px;
-    }
+  h1 {
+    font-size: 26px;
+    margin: 0 0 6px;
+    color: #111827;
+  }
 
-    .campo {
-      margin-bottom: 18px;
-    }
+  .subtitulo {
+    color: #6b7280;
+    font-size: 15px;
+    margin: 0 0 24px;
+  }
 
-    label {
-      display: block;
-      font-weight: 600;
-      margin-bottom: 6px;
-      font-size: 15px;
-    }
+  form {
+    background: #ffffff;
+    padding: 24px;
+    border-radius: 14px;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.06);
+  }
 
-    input[type="text"],
-    input[type="tel"],
-    input[type="email"],
-    select,
-    textarea {
-      width: 100%;
-      padding: 10px 12px;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      font-size: 16px;
-      font-family: inherit;
-      background: #fff;
-      transition: border 0.2s, background 0.2s;
-      scroll-margin-top: 100px; /* evita que un header fijo tape el campo */
-    }
+  .campo {
+    margin-bottom: 20px;
+    position: relative;
+  }
 
-    textarea {
-      resize: vertical;
-      min-height: 100px;
-    }
+  label {
+    display: block;
+    font-weight: 600;
+    margin-bottom: 6px;
+    font-size: 15px;
+    color: #374151;
+  }
 
-    .campo-error {
-      border: 2px solid #e53935 !important;
-      background: #ffebee !important;
-    }
+  label .req {
+    color: #e53935;
+  }
 
-    .error-msg {
-      color: #e53935;
-      font-size: 14px;
-      margin-top: 4px;
-      display: none;
-    }
+  input[type="text"],
+  input[type="tel"],
+  input[type="email"],
+  input[type="date"],
+  input[type="number"],
+  select,
+  textarea {
+    width: 100%;
+    padding: 11px 13px;
+    border: 1.5px solid #d1d5db;
+    border-radius: 9px;
+    font-size: 16px;
+    font-family: inherit;
+    background: #fff;
+    color: #111827;
+    transition: border-color .18s, background .18s, box-shadow .18s;
+    scroll-margin-top: 90px;
+    outline: none;
+  }
 
-    .error-msg.visible {
-      display: block;
-    }
+  input:focus,
+  select:focus,
+  textarea:focus {
+    border-color: #25D366;
+    box-shadow: 0 0 0 3px rgba(37, 211, 102, 0.18);
+  }
 
-    .checkbox-group {
-      display: flex;
-      align-items: flex-start;
-      gap: 8px;
-    }
+  textarea {
+    resize: vertical;
+    min-height: 110px;
+  }
 
-    .checkbox-group input[type="checkbox"] {
-      margin-top: 4px;
-      width: 18px;
-      height: 18px;
-      flex-shrink: 0;
-    }
+  select {
+    appearance: none;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='14' height='14' viewBox='0 0 24 24' fill='none' stroke='%236b7280' stroke-width='2'><polyline points='6 9 12 15 18 9'/></svg>");
+    background-repeat: no-repeat;
+    background-position: right 14px center;
+    padding-right: 40px;
+  }
 
-    .checkbox-group label {
-      font-weight: 400;
-      margin: 0;
-    }
+  /* Estado de error */
+  .campo.error input,
+  .campo.error select,
+  .campo.error textarea {
+    border-color: #e53935;
+    background: #fff5f5;
+  }
 
-    button {
-      background: #25D366;
-      color: white;
-      border: none;
-      padding: 14px 20px;
-      border-radius: 8px;
-      font-size: 17px;
-      font-weight: 600;
-      cursor: pointer;
-      width: 100%;
-      transition: background 0.2s;
-      margin-top: 10px;
-    }
+  .campo.error input:focus,
+  .campo.error select:focus,
+  .campo.error textarea:focus {
+    box-shadow: 0 0 0 3px rgba(229, 57, 53, 0.18);
+  }
 
-    button:hover {
-      background: #1ebe5d;
-    }
+  .error-msg {
+    color: #e53935;
+    font-size: 13.5px;
+    margin-top: 5px;
+    display: none;
+  }
 
-    button:active {
-      transform: scale(0.98);
-    }
-  </style>
+  .campo.error .error-msg {
+    display: block;
+  }
+
+  /* Checkbox */
+  .checkbox-group {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+  }
+
+  .checkbox-group input[type="checkbox"] {
+    margin-top: 3px;
+    width: 18px;
+    height: 18px;
+    accent-color: #25D366;
+    flex-shrink: 0;
+    cursor: pointer;
+  }
+
+  .checkbox-group label {
+    font-weight: 400;
+    margin: 0;
+    cursor: pointer;
+    color: #374151;
+  }
+
+  .campo.error .checkbox-group label {
+    color: #e53935;
+  }
+
+  /* Botones */
+  .acciones {
+    display: flex;
+    gap: 12px;
+    margin-top: 8px;
+  }
+
+  button {
+    border: none;
+    padding: 14px 20px;
+    border-radius: 10px;
+    font-size: 16px;
+    font-weight: 600;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background .18s, transform .06s, opacity .18s;
+  }
+
+  button:active { transform: scale(0.98); }
+
+  .btn-primario {
+    background: #25D366;
+    color: white;
+    flex: 1;
+  }
+
+  .btn-primario:hover:not(:disabled) { background: #1ebe5d; }
+  .btn-primario:disabled { opacity: .6; cursor: not-allowed; }
+
+  .btn-secundario {
+    background: #e5e7eb;
+    color: #374151;
+  }
+
+  .btn-secundario:hover { background: #d1d5db; }
+
+  /* Alerta resumen de faltantes */
+  .alerta {
+    background: #fef2f2;
+    border: 1.5px solid #fecaca;
+    color: #991b1b;
+    padding: 12px 14px;
+    border-radius: 10px;
+    font-size: 14.5px;
+    margin-bottom: 18px;
+    display: none;
+  }
+
+  .alerta.visible { display: block; }
+
+  .alerta strong { display: block; margin-bottom: 4px; }
+
+  .alerta ul {
+    margin: 6px 0 0;
+    padding-left: 20px;
+  }
+
+  /* Vista previa */
+  .preview {
+    margin-top: 22px;
+    background: #f0fdf4;
+    border: 1.5px solid #bbf7d0;
+    border-radius: 10px;
+    padding: 14px 16px;
+    display: none;
+  }
+
+  .preview.visible { display: block; }
+
+  .preview h3 {
+    margin: 0 0 8px;
+    font-size: 14px;
+    color: #166534;
+    text-transform: uppercase;
+    letter-spacing: .5px;
+  }
+
+  .preview pre {
+    margin: 0;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+    font-family: inherit;
+    font-size: 14.5px;
+    color: #14532d;
+  }
+</style>
 </head>
 <body>
 
-  <h1>Enviar reporte</h1>
+<h1>Enviar reporte</h1>
+<p class="subtitulo">Completa todos los campos obligatorios. Si falta alguno, te llevaremos directo a él.</p>
 
-  <form id="reporteForm" novalidate>
-    <div class="campo">
-      <label for="nombre">Nombre completo *</label>
-      <input type="text" id="nombre" name="nombre" data-label="Nombre completo" required>
-      <div class="error-msg">Este campo es obligatorio</div>
+<form id="reporteForm" novalidate>
+
+  <!-- Alerta resumen -->
+  <div class="alerta" id="alertaFaltantes" role="alert">
+    <strong>Faltan datos por completar:</strong>
+    <ul id="listaFaltantes"></ul>
+  </div>
+
+  <!-- Nombre -->
+  <div class="campo" data-campo>
+    <label for="nombre">Nombre completo <span class="req">*</span></label>
+    <input type="text" id="nombre" name="nombre" data-label="Nombre completo" required>
+    <div class="error-msg">Este campo es obligatorio</div>
+  </div>
+
+  <!-- Teléfono -->
+  <div class="campo" data-campo>
+    <label for="telefono">Teléfono <span class="req">*</span></label>
+    <input type="tel" id="telefono" name="telefono" data-label="Teléfono" placeholder="10 dígitos" required>
+    <div class="error-msg">Ingresa un teléfono válido</div>
+  </div>
+
+  <!-- Correo (opcional) -->
+  <div class="campo" data-campo>
+    <label for="email">Correo electrónico</label>
+    <input type="email" id="email" name="email" data-label="Correo electrónico" placeholder="opcional">
+    <div class="error-msg">Ingresa un correo válido</div>
+  </div>
+
+  <!-- Categoría -->
+  <div class="campo" data-campo>
+    <label for="categoria">Categoría <span class="req">*</span></label>
+    <select id="categoria" name="categoria" data-label="Categoría" required>
+      <option value="">Selecciona una opción</option>
+      <option value="Soporte">Soporte</option>
+      <option value="Ventas">Ventas</option>
+      <option value="Queja">Queja</option>
+      <option value="Sugerencia">Sugerencia</option>
+      <option value="Otro">Otro</option>
+    </select>
+    <div class="error-msg">Selecciona una categoría</div>
+  </div>
+
+  <!-- Fecha -->
+  <div class="campo" data-campo>
+    <label for="fecha">Fecha del evento <span class="req">*</span></label>
+    <input type="date" id="fecha" name="fecha" data-label="Fecha del evento" required>
+    <div class="error-msg">Selecciona una fecha</div>
+  </div>
+
+  <!-- Prioridad -->
+  <div class="campo" data-campo>
+    <label for="prioridad">Prioridad <span class="req">*</span></label>
+    <select id="prioridad" name="prioridad" data-label="Prioridad" required>
+      <option value="">Selecciona una opción</option>
+      <option value="Baja">Baja</option>
+      <option value="Media">Media</option>
+      <option value="Alta">Alta</option>
+      <option value="Urgente">Urgente</option>
+    </select>
+    <div class="error-msg">Selecciona una prioridad</div>
+  </div>
+
+  <!-- Detalle -->
+  <div class="campo" data-campo>
+    <label for="detalle">Detalle del reporte <span class="req">*</span></label>
+    <textarea id="detalle" name="detalle" data-label="Detalle" rows="5"
+      placeholder="Describe lo ocurrido con el mayor detalle posible..." required></textarea>
+    <div class="error-msg">El detalle es obligatorio</div>
+  </div>
+
+  <!-- Acepto -->
+  <div class="campo" data-campo>
+    <div class="checkbox-group">
+      <input type="checkbox" id="acepto" name="acepto" data-label="Acepto términos" required>
+      <label for="acepto">Acepto los términos y condiciones <span class="req">*</span></label>
     </div>
+    <div class="error-msg">Debes aceptar los términos</div>
+  </div>
 
-    <div class="campo">
-      <label for="telefono">Teléfono *</label>
-      <input type="tel" id="telefono" name="telefono" data-label="Teléfono" required>
-      <div class="error-msg">Este campo es obligatorio</div>
-    </div>
+  <!-- Botones -->
+  <div class="acciones">
+    <button type="button" class="btn-secundario" id="btnPreview">Vista previa</button>
+    <button type="button" class="btn-primario" id="btnEnviar">Enviar a WhatsApp</button>
+  </div>
 
-    <div class="campo">
-      <label for="email">Correo electrónico</label>
-      <input type="email" id="email" name="email" data-label="Correo electrónico">
-      <div class="error-msg">Ingresa un correo válido</div>
-    </div>
+  <!-- Vista previa del mensaje -->
+  <div class="preview" id="previewBox">
+    <h3>Vista previa del mensaje</h3>
+    <pre id="previewTexto"></pre>
+  </div>
 
-    <div class="campo">
-      <label for="categoria">Categoría *</label>
-      <select id="categoria" name="categoria" data-label="Categoría" required>
-        <option value="">Selecciona una opción</option>
-        <option value="Soporte">Soporte</option>
-        <option value="Ventas">Ventas</option>
-        <option value="Queja">Queja</option>
-        <option value="Sugerencia">Sugerencia</option>
-      </select>
-      <div class="error-msg">Este campo es obligatorio</div>
-    </div>
+</form>
 
-    <div class="campo">
-      <label for="detalle">Detalle del reporte *</label>
-      <textarea id="detalle" name="detalle" data-label="Detalle" rows="4" required></textarea>
-      <div class="error-msg">Este campo es obligatorio</div>
-    </div>
+<script>
+/* ============================================================
+   CONFIGURACIÓN
+   Cambia este número por tu WhatsApp real.
+   Formato: código de país + número, sin "+", sin espacios, sin guiones.
+   Ejemplo México: 5215512345678
+   ============================================================ */
+const TELEFONO_WHATSAPP = "521234567890";
 
-    <div class="campo">
-      <div class="checkbox-group">
-        <input type="checkbox" id="acepto" name="acepto" data-label="Acepto términos" required>
-        <label for="acepto">Acepto los términos y condiciones *</label>
-      </div>
-      <div class="error-msg">Debes aceptar los términos</div>
-    </div>
+/* ============================================================
+   REFERENCIAS
+   ============================================================ */
+const form             = document.getElementById("reporteForm");
+const btnEnviar        = document.getElementById("btnEnviar");
+const btnPreview       = document.getElementById("btnPreview");
+const alertaFaltantes  = document.getElementById("alertaFaltantes");
+const listaFaltantes   = document.getElementById("listaFaltantes");
+const previewBox       = document.getElementById("previewBox");
+const previewTexto     = document.getElementById("previewTexto");
 
-    <button type="button" id="btnEnviar">Enviar a WhatsApp</button>
-  </form>
+/* ============================================================
+   UTILIDADES
+   ============================================================ */
 
-  <script>
-    // ============================================================
-    // CONFIGURACIÓN
-    // Cambia este número por tu WhatsApp (código de país + número, sin +, espacios ni guiones)
-    // Ejemplo México: 521234567890
-    // ============================================================
-    const TELEFONO_WHATSAPP = "521234567890";
+function estaVacio(el) {
+  if (el.type === "checkbox" || el.type === "radio") return !el.checked;
+  if (el.tagName === "SELECT") return el.value === "";
+  return !el.value.trim();
+}
 
-    const form = document.getElementById("reporteForm");
-    const btnEnviar = document.getElementById("btnEnviar");
+function esEmailValido(valor) {
+  return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(valor);
+}
 
-    // ------------------------------------------------------------
-    // Utilidades de validación
-    // ------------------------------------------------------------
+function esTelefonoValido(valor) {
+  return /^[0-9+\s()-]{7,15}$/.test(valor);
+}
 
-    function estaVacio(el) {
-      if (el.type === "checkbox" || el.type === "radio") {
-        return !el.checked;
-      }
-      if (el.tagName === "SELECT") {
-        return el.value === "";
-      }
-      return !el.value.trim();
+// Devuelve true si el campo es válido (o no es requerido y está vacío)
+function esCampoValido(el) {
+  // Requerido vacío → inválido
+  if (el.required && estaVacio(el)) return false;
+
+  // Validaciones específicas sólo si tiene valor
+  if (!estaVacio(el)) {
+    if (el.type === "email" && !esEmailValido(el.value)) return false;
+    if (el.type === "tel" && !esTelefonoValido(el.value)) return false;
+  }
+  return true;
+}
+
+function obtenerCampos() {
+  return [...form.querySelectorAll("[name]")];
+}
+
+function obtenerCamposRequeridos() {
+  return [...form.querySelectorAll("[required]")];
+}
+
+function limpiarError(campo) {
+  const wrapper = campo.closest("[data-campo]");
+  if (wrapper) wrapper.classList.remove("error");
+}
+
+function marcarError(campo) {
+  const wrapper = campo.closest("[data-campo]");
+  if (wrapper) wrapper.classList.add("error");
+}
+
+function limpiarTodosLosErrores() {
+  form.querySelectorAll("[data-campo]").forEach(w => w.classList.remove("error"));
+  alertaFaltantes.classList.remove("visible");
+  listaFaltantes.innerHTML = "";
+}
+
+function irAlCampo(campo) {
+  // 1) Scroll suave hasta el campo
+  campo.scrollIntoView({
+    behavior: "smooth",
+    block: "center"
+  });
+
+  // 2) Esperar a que termine el scroll y enfocar
+  setTimeout(() => {
+    try { campo.focus({ preventScroll: true }); } catch (e) { campo.focus(); }
+  }, 420);
+}
+
+/* ============================================================
+   CONSTRUIR MENSAJE
+   ============================================================ */
+
+function construirMensaje() {
+  const lineas = [];
+  lineas.push("📋 *NUEVO REPORTE*");
+  lineas.push("─────────────────────");
+
+  obtenerCampos().forEach(el => {
+    const label = el.dataset.label || el.name;
+    let valor = "";
+
+    if (el.type === "checkbox") {
+      valor = el.checked ? "Sí" : "No";
+    } else if (el.type === "radio") {
+      if (!el.checked) return;
+      valor = el.value;
+    } else {
+      valor = el.value.trim();
     }
 
-    function obtenerCamposRequeridos() {
-      return [...form.querySelectorAll("[required]")];
+    // Si no es requerido y está vacío, se omite
+    if (!el.required && valor === "") return;
+
+    lineas.push(`*${label}:* ${valor}`);
+  });
+
+  lineas.push("─────────────────────");
+  lineas.push(`🕒 Enviado: ${new Date().toLocaleString("es-MX")}`);
+
+  return lineas.join("\n");
+}
+
+/* ============================================================
+   MOSTRAR RESUMEN DE FALTANTES
+   ============================================================ */
+
+function mostrarAlertaFaltantes(faltantes) {
+  listaFaltantes.innerHTML = "";
+  faltantes.forEach(c => {
+    const li = document.createElement("li");
+    li.textContent = c.dataset.label || c.name;
+    listaFaltantes.appendChild(li);
+  });
+  alertaFaltantes.classList.add("visible");
+}
+
+/* ============================================================
+   VALIDACIÓN + SCROLL AL PRIMER FALTANTE
+   ============================================================ */
+
+function validarFormulario() {
+  limpiarTodosLosErrores();
+
+  const requeridos = obtenerCamposRequeridos();
+  const invalidos = requeridos.filter(c => !esCampoValido(c));
+
+  if (invalidos.length === 0) return true;
+
+  // Marcar todos los inválidos
+  invalidos.forEach(marcarError);
+
+  // Mostrar resumen
+  mostrarAlertaFaltantes(invalidos);
+
+  // Scroll + focus al primero
+  irAlCampo(invalidos[0]);
+
+  return false;
+}
+
+/* ============================================================
+   ACCIÓN: VISTA PREVIA
+   ============================================================ */
+
+btnPreview.addEventListener("click", () => {
+  // La vista previa no requiere validación estricta,
+  // pero sí mostramos lo que llevaría el mensaje.
+  previewTexto.textContent = construirMensaje();
+  previewBox.classList.add("visible");
+  previewBox.scrollIntoView({ behavior: "smooth", block: "nearest" });
+});
+
+/* ============================================================
+   ACCIÓN: ENVIAR A WHATSAPP
+   ============================================================ */
+
+btnEnviar.addEventListener("click", () => {
+  // 1) Validar. Si falla, hace scroll al primero y detiene el envío.
+  if (!validarFormulario()) return;
+
+  // 2) Bloquear el botón momentáneamente para evitar doble envío
+  btnEnviar.disabled = true;
+  const textoOriginal = btnEnviar.textContent;
+  btnEnviar.textContent = "Abriendo WhatsApp...";
+
+  try {
+    // 3) Construir mensaje y URL
+    const mensaje = construirMensaje();
+    const url = `https://wa.me/${TELEFONO_WHATSAPP}?text=${encodeURIComponent(mensaje)}`;
+
+    // 4) Abrir WhatsApp
+    window.open(url, "_blank");
+
+    // 5) Restaurar botón
+    setTimeout(() => {
+      btnEnviar.disabled = false;
+      btnEnviar.textContent = textoOriginal;
+    }, 1200);
+  } catch (err) {
+    console.error(err);
+    alert("Ocurrió un error al generar el enlace de WhatsApp.");
+    btnEnviar.disabled = false;
+    btnEnviar.textContent = textoOriginal;
+  }
+});
+
+/* ============================================================
+   VALIDACIÓN EN TIEMPO REAL
+   Al escribir, limpia el error del campo si ya es válido.
+   ============================================================ */
+
+obtenerCampos().forEach(el => {
+  const evento = (el.tagName === "SELECT" || el.type === "checkbox" || el.type === "date")
+    ? "change"
+    : "input";
+
+  el.addEventListener(evento, () => {
+    if (esCampoValido(el)) {
+      limpiarError(el);
+
+      // Si ya no quedan errores visibles, ocultar la alerta
+      const quedanErrores = form.querySelectorAll("[data-campo].error").length > 0;
+      if (!quedanErrores) alertaFaltantes.classList.remove("visible");
     }
+  });
 
-    function limpiarErrores(campos) {
-      campos.forEach(c => {
-        c.classList.remove("campo-error");
-        const errorMsg = c.closest(".campo")?.querySelector(".error-msg");
-        if (errorMsg) errorMsg.classList.remove("visible");
-      });
+  // Al salir del campo, si es inválido, márcalo (solo si ya tuvo valor o estaba requerido)
+  el.addEventListener("blur", () => {
+    if (!esCampoValido(el)) {
+      marcarError(el);
+    } else {
+      limpiarError(el);
     }
+  });
+});
 
-    function marcarError(campo) {
-      campo.classList.add("campo-error");
-      const errorMsg = campo.closest(".campo")?.querySelector(".error-msg");
-      if (errorMsg) errorMsg.classList.add("visible");
-    }
+/* ============================================================
+   ENTER PARA ENVIAR (excepto en textarea)
+   ============================================================ */
 
-    function irAlPrimerFaltante(campo) {
-      // Scroll suave hasta el campo
-      campo.scrollIntoView({
-        behavior: "smooth",
-        block: "center"
-      });
+form.addEventListener("keydown", (e) => {
+  if (e.key === "Enter" && e.target.tagName !== "TEXTAREA") {
+    e.preventDefault();
+    btnEnviar.click();
+  }
+});
 
-      // Esperar a que termine el scroll y enfocar sin mover de nuevo
-      setTimeout(() => {
-        campo.focus({ preventScroll: true });
-      }, 450);
-    }
+/* ============================================================
+   INICIALIZAR FECHA DE HOY POR DEFECTO
+   ============================================================ */
+(function setFechaHoy() {
+  const inputFecha = document.getElementById("fecha");
+  if (!inputFecha) return;
+  const hoy = new Date();
+  const yyyy = hoy.getFullYear();
+  const mm = String(hoy.getMonth() + 1).padStart(2, "0");
+  const dd = String(hoy.getDate()).padStart(2, "0");
+  inputFecha.value = `${yyyy}-${mm}-${dd}`;
+})();
+</script>
 
-    // ------------------------------------------------------------
-    // Construir mensaje para WhatsApp
-    // ------------------------------------------------------------
-
-    function construirMensaje() {
-      const lineas = [];
-      const campos = [...form.querySelectorAll("[name]")];
-
-      campos.forEach(el => {
-        const label = el.dataset.label || el.name;
-        let valor = "";
-
-        if (el.type === "checkbox") {
-          valor = el.checked ? "Sí" : "No";
-        } else if (el.type === "radio") {
-          if (el.checked) {
-            valor = el.value;
-          } else {
-            return; // omitir radios no seleccionados
-          }
-        } else {
-          valor = el.value.trim();
-        }
-
-        // Si no es requerido y está vacío, se omite del mensaje
-        if (!el.required && valor === "") return;
-
-        lineas.push(`${label}: ${valor}`);
-      });
-
-      return lineas.join("\n");
-    }
-
-    // ------------------------------------------------------------
-    // Función principal
-    // ------------------------------------------------------------
-
-    function enviarReporte() {
-      const camposRequeridos = obtenerCamposRequeridos();
-      limpiarErrores(camposRequeridos);
-
-      // Detectar campos vacíos
-      const faltantes = camposRequeridos.filter(estaVacio);
-
-      if (faltantes.length > 0) {
-        // Marcar todos los faltantes
-        faltantes.forEach(marcarError);
-
-        // Llevar al primero
-        irAlPrimerFaltante(faltantes[0]);
-
-        // Aviso opcional con todos los campos que faltan
-        const nombres = faltantes.map(c => c.dataset.label || c.name).join(", ");
-        alert(`Faltan los siguientes datos: ${nombres}`);
-
-        return; // No se envía nada
-      }
-
-      // Todo completo: construir mensaje y abrir WhatsApp
-      const mensaje = construirMensaje();
-      const url = `https://wa.me/${TELEFONO_WHATSAPP}?text=${encodeURIComponent(mensaje)}`;
-
-      window.open(url, "_blank");
-    }
-
-    // ------------------------------------------------------------
-    // Eventos
-    // ------------------------------------------------------------
-
-    btnEnviar.addEventListener("click", enviarReporte);
-
-    // Permitir enviar con Enter (excepto en textarea)
-    form.addEventListener("keydown", (e) => {
-      if (e.key === "Enter" && e.target.tagName !== "TEXTAREA") {
-        e.preventDefault();
-        enviarReporte();
-      }
-    });
-  </script>
 </body>
 </html>
