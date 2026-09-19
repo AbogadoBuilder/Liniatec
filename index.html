@@ -79,6 +79,12 @@
       outline: none;
       background: #fff;
     }
+    input[readonly] {
+      background: #eef4fa;
+      color: var(--primary);
+      font-weight: 700;
+      cursor: not-allowed;
+    }
     .radio-group { display: flex; gap: 16px; margin-top: 4px; }
     .radio-group label {
       display: flex; align-items: center; gap: 6px;
@@ -189,7 +195,7 @@
   <h2>📋 Antes de comenzar</h2>
   <p>Estás en tu derecho de solicitar al verificador que se identifique. Conserva la calma y sigue esta guía. Al final podrás enviar un reporte completo a tu abogado.</p>
   <div class="advice">
-    <strong>Recuerda:</strong> Solicita la credencial vigente, la orden de verificación por escrito con firma autógrafa y, si lo deseas, nombra dos testigos. [reference:0]
+    <strong>Recuerda:</strong> Solicita la credencial vigente, la orden de verificación por escrito con firma autógrafa y, si lo deseas, nombra dos testigos. 
   </div>
 </div>
 
@@ -274,8 +280,8 @@
   <h2 style="margin-top:20px;">📤 Enviar reporte</h2>
   <p style="margin-bottom:8px;">Genera un mensaje detallado para tu abogado. Las fotos deberás adjuntarlas manualmente en WhatsApp.</p>
 
-  <label for="numeroAbogado">Número de WhatsApp del abogado (con código de país)</label>
-  <input type="tel" id="numeroAbogado" placeholder="Ej. 5215512345678" value="5215512345678">
+  <label for="numeroAbogado">WhatsApp del abogado (destino del reporte)</label>
+  <input type="tel" id="numeroAbogado" value="525652663610" readonly>
 
   <button type="button" class="btn btn-primary" onclick="enviarReporte()">
     📲 Enviar reporte al Abogado
@@ -290,19 +296,19 @@
   <details class="collapsible">
     <summary>⚖️ Conoce tus derechos (Cofepris e INVEA)</summary>
     <ul style="padding-left:18px; margin-top:6px;">
-      <li>Solicitar la identificación del verificador y confirmar que la foto coincida. [reference:1]</li>
-      <li>Corroborar que la orden de verificación tenga firma autógrafa. [reference:2]</li>
-      <li>Conocer el propósito y fundamento legal de la visita. [reference:3]</li>
-      <li>Recibir copia de la orden de verificación. [reference:4]</li>
-      <li>Proponer dos testigos que presencien todo el desarrollo. [reference:5]</li>
-      <li>Realizar las manifestaciones que a tu derecho convengan. [reference:6]</li>
+      <li>Solicitar la identificación del verificador y confirmar que la foto coincida. </li>
+      <li>Corroborar que la orden de verificación tenga firma autógrafa. </li>
+      <li>Conocer el propósito y fundamento legal de la visita. </li>
+      <li>Recibir copia de la orden de verificación. </li>
+      <li>Proponer dos testigos que presencien todo el desarrollo. </li>
+      <li>Realizar las manifestaciones que a tu derecho convengan. </li>
     </ul>
   </details>
   <details class="collapsible" style="margin-top:8px;">
     <summary>📞 Teléfonos de denuncia</summary>
-    <p style="margin-top:6px;">INVEA: <strong>55 4737 7700</strong> (Línea Directa contra extorsión) [reference:7]</p>
-    <p>Cofepris: <strong>800 033 5050</strong> [reference:8]</p>
-    <p>Protección Civil CDMX: <strong>55 1519 1864</strong> [reference:9]</p>
+    <p style="margin-top:6px;">INVEA: <strong>55 4737 7700</strong> (Línea Directa contra extorsión) </p>
+    <p>Cofepris: <strong>800 033 5050</strong> </p>
+    <p>Protección Civil CDMX: <strong>55 1519 1864</strong> </p>
   </details>
 </div>
 
@@ -480,7 +486,7 @@ function enviarReporte() {
   msg += `\n📸 *Fotos:* Adjuntar credencial y orden en este chat.`;
 
   // Codificar y abrir WhatsApp
-  const url = `https://wa.me/${5256663610}?text=${encodeURIComponent(msg)}`;
+  const url = `https://wa.me/${numeroAbogado}?text=${encodeURIComponent(msg)}`;
   window.open(url, '_blank');
 }
 
