@@ -61,6 +61,18 @@
       letter-spacing: .5px;
       margin-bottom: 8px;
     }
+    /* ===== LOGO PERSONALIZADO ===== */
+    .logo {
+      width: 80px;
+      height: 80px;
+      object-fit: contain;
+      background: #fff;
+      border-radius: 50%;
+      padding: 8px;
+      margin: 0 auto 10px;
+      display: block;
+      box-shadow: 0 4px 12px rgba(0,0,0,.25);
+    }
     label { display: block; font-size: .88rem; font-weight: 600; margin: 12px 0 4px; color: var(--text); }
     input[type="text"],
     input[type="tel"],
@@ -183,10 +195,16 @@
 </head>
 <body>
 
-<!-- ===== ENCABEZADO ===== -->
+<!-- ===== ENCABEZADO CON LOGO PERSONALIZADO ===== -->
 <div class="header">
   <div class="badge">CDMX · Área Metropolitana</div>
-  <h1>🛡️ Asesor de Verificación</h1>
+  <img 
+    src="https://i.ibb.co/6Jng0Z5S/29d572b7-060d-4258-a958-7776e1c86054.jpg" 
+    alt="Logo Asesor de Verificación" 
+    class="logo"
+    onerror="this.style.display='none'; document.querySelector('.header h1').innerHTML = '🛡️ Asesor de Verificación';"
+  >
+  <h1>Asesor de Verificación</h1>
   <p>INVEA · Cofepris · Protección Civil</p>
 </div>
 
