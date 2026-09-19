@@ -2,889 +2,302 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes">
-  <meta name="theme-color" content="#08080d">
-  <title>Asesor de Verificación – CDMX</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Reporte a WhatsApp</title>
   <style>
-    :root {
-      /* Fondo profundo */
-      --bg: #08080d;
-      --bg-elev: #0f0f18;
-
-      /* Neón */
-      --neon-blue: #00d4ff;
-      --neon-blue-soft: rgba(0, 212, 255, .15);
-      --neon-purple: #a855f7;
-      --neon-purple-soft: rgba(168, 85, 247, .15);
-      --neon-pink: #ff2fb9;
-
-      /* Cristal */
-      --glass: rgba(255, 255, 255, .04);
-      --glass-strong: rgba(255, 255, 255, .07);
-      --glass-border: rgba(255, 255, 255, .09);
-      --glass-border-hi: rgba(0, 212, 255, .35);
-
-      /* Texto */
-      --text: #eef1f8;
-      --text-muted: #8a90a3;
-      --text-dim: #565c70;
-
-      /* Semánticos neón */
-      --ok: #22e39a;
-      --warn: #ffb547;
-      --danger: #ff4d6d;
-
-      --radius: 20px;
-      --radius-sm: 12px;
-      --shadow: 0 8px 32px rgba(0, 0, 0, .55);
-    }
-
-    * { box-sizing: border-box; margin: 0; padding: 0; }
-
-    html, body {
-      min-height: 100%;
+    * {
+      box-sizing: border-box;
     }
 
     body {
-      font-family: -apple-system, BlinkMacSystemFont, 'SF Pro Display', 'Segoe UI', system-ui, Roboto, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      padding: 24px 16px 120px;
-      line-height: 1.55;
-      -webkit-tap-highlight-color: transparent;
-      letter-spacing: .1px;
-      position: relative;
-      overflow-x: hidden;
-      -webkit-font-smoothing: antialiased;
-    }
-
-    /* Halos neón de fondo */
-    body::before,
-    body::after {
-      content: '';
-      position: fixed;
-      width: 420px;
-      height: 420px;
-      border-radius: 50%;
-      filter: blur(120px);
-      opacity: .22;
-      pointer-events: none;
-      z-index: 0;
-    }
-    body::before {
-      top: -180px;
-      left: -140px;
-      background: radial-gradient(circle, var(--neon-blue), transparent 70%);
-    }
-    body::after {
-      bottom: -200px;
-      right: -160px;
-      background: radial-gradient(circle, var(--neon-purple), transparent 70%);
+      font-family: system-ui, -apple-system, sans-serif;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 20px;
+      background: #f9f9f9;
+      color: #333;
     }
 
     h1 {
-      font-size: 1.4rem;
-      font-weight: 700;
-      letter-spacing: -.4px;
-      color: #fff;
-    }
-    h2 {
-      font-size: 1rem;
-      font-weight: 600;
-      letter-spacing: -.2px;
-      color: #fff;
-      margin-bottom: 12px;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-    h2::before {
-      content: '';
-      width: 3px;
-      height: 16px;
-      border-radius: 3px;
-      background: linear-gradient(180deg, var(--neon-blue), var(--neon-purple));
-      box-shadow: 0 0 10px var(--neon-blue);
-    }
-    h3 {
-      font-size: .9rem;
-      font-weight: 600;
-      color: var(--neon-blue);
-      margin: 10px 0 4px;
-    }
-    p, li {
-      font-size: .92rem;
-      color: var(--text-muted);
-      font-weight: 400;
+      font-size: 24px;
+      margin-bottom: 20px;
     }
 
-    /* ====== TARJETAS GLASSMORPHISM ====== */
-    .card {
-      position: relative;
-      background: var(--glass);
-      backdrop-filter: blur(24px) saturate(160%);
-      -webkit-backdrop-filter: blur(24px) saturate(160%);
-      border: 1px solid var(--glass-border);
-      border-radius: var(--radius);
-      padding: 22px 18px;
-      margin-bottom: 16px;
-      box-shadow: var(--shadow);
-      z-index: 1;
-      overflow: hidden;
-    }
-    /* Línea neón superior sutil */
-    .card::before {
-      content: '';
-      position: absolute;
-      top: 0;
-      left: 20px;
-      right: 20px;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(0, 212, 255, .5), transparent);
-      pointer-events: none;
-    }
-
-    /* ====== HEADER ====== */
-    .header {
-      position: relative;
-      background: linear-gradient(145deg, rgba(0, 212, 255, .08), rgba(168, 85, 247, .06));
-      backdrop-filter: blur(24px) saturate(160%);
-      -webkit-backdrop-filter: blur(24px) saturate(160%);
-      border: 1px solid var(--glass-border);
-      border-radius: var(--radius);
-      padding: 32px 20px 26px;
-      margin-bottom: 16px;
-      text-align: center;
-      z-index: 1;
-      overflow: hidden;
-    }
-    .header::before {
-      content: '';
-      position: absolute;
-      inset: -2px;
-      border-radius: var(--radius);
-      padding: 1px;
-      background: linear-gradient(135deg, rgba(0, 212, 255, .5), transparent 40%, transparent 60%, rgba(168, 85, 247, .5));
-      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
-      -webkit-mask-composite: xor;
-      mask-composite: exclude;
-      pointer-events: none;
-    }
-
-    .badge {
-      display: inline-block;
-      background: rgba(0, 212, 255, .1);
-      color: var(--neon-blue);
-      font-size: .68rem;
-      font-weight: 700;
-      padding: 5px 14px;
-      border-radius: 100px;
-      text-transform: uppercase;
-      letter-spacing: 1.4px;
+    .campo {
       margin-bottom: 18px;
-      border: 1px solid rgba(0, 212, 255, .25);
-      box-shadow: 0 0 20px rgba(0, 212, 255, .15);
     }
 
-    /* LOGO */
-    .logo-wrap {
-      width: 92px;
-      height: 92px;
-      margin: 0 auto 18px;
-      border-radius: 50%;
-      padding: 3px;
-      background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
-      box-shadow: 0 0 28px rgba(0, 212, 255, .35), 0 0 60px rgba(168, 85, 247, .2);
-      position: relative;
-    }
-    .logo {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 50%;
-      background: #fff;
-      display: block;
-    }
-
-    .header h1 {
-      margin-bottom: 6px;
-      font-size: 1.5rem;
-      background: linear-gradient(135deg, #fff, #b8c1d9);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
-    }
-    .header p {
-      color: var(--text-muted);
-      font-size: .82rem;
-      letter-spacing: 1.2px;
-      text-transform: uppercase;
-      font-weight: 500;
-    }
-
-    /* ====== FORMULARIO ====== */
     label {
       display: block;
-      font-size: .78rem;
       font-weight: 600;
-      margin: 16px 0 6px;
-      color: var(--text-muted);
-      text-transform: uppercase;
-      letter-spacing: 1px;
+      margin-bottom: 6px;
+      font-size: 15px;
     }
 
     input[type="text"],
     input[type="tel"],
+    input[type="email"],
     select,
     textarea {
       width: 100%;
-      padding: 14px 16px;
-      border: 1px solid var(--glass-border);
-      border-radius: var(--radius-sm);
-      font-size: .95rem;
-      background: rgba(255, 255, 255, .03);
-      color: var(--text);
-      transition: all .25s ease;
-      font-family: inherit;
-      backdrop-filter: blur(10px);
-    }
-    input::placeholder { color: var(--text-dim); }
-    input:focus, select:focus, textarea:focus {
-      border-color: var(--glass-border-hi);
-      outline: none;
-      background: rgba(0, 212, 255, .04);
-      box-shadow: 0 0 0 3px rgba(0, 212, 255, .08), 0 0 20px rgba(0, 212, 255, .1);
-    }
-    select {
-      appearance: none;
-      background-image: url("data:image/svg+xml;utf8,<svg fill='%238a90a3' height='24' viewBox='0 0 24 24' width='24' xmlns='http://www.w3.org/2000/svg'><path d='M7 10l5 5 5-5z'/></svg>");
-      background-repeat: no-repeat;
-      background-position: right 12px center;
-      padding-right: 40px;
-    }
-    select option {
-      background: #0f0f18;
-      color: var(--text);
-    }
-
-    input[readonly] {
-      background: rgba(0, 212, 255, .05);
-      color: var(--neon-blue);
-      font-weight: 700;
-      cursor: not-allowed;
-      border-color: rgba(0, 212, 255, .2);
-    }
-
-    /* ====== CHECK ITEMS ====== */
-    .check-item {
-      display: flex;
-      align-items: flex-start;
-      gap: 14px;
-      padding: 14px 16px;
-      background: rgba(255, 255, 255, .025);
-      border: 1px solid var(--glass-border);
-      border-radius: var(--radius-sm);
-      margin-bottom: 10px;
-      font-size: .9rem;
-      line-height: 1.45;
-      transition: all .25s ease;
-      cursor: pointer;
-      position: relative;
-    }
-    .check-item:hover {
-      background: rgba(255, 255, 255, .05);
-      border-color: rgba(255, 255, 255, .15);
-    }
-    .check-item:has(input:checked) {
-      background: rgba(0, 212, 255, .06);
-      border-color: rgba(0, 212, 255, .3);
-      box-shadow: 0 0 20px rgba(0, 212, 255, .08);
-    }
-    .check-item input[type="checkbox"] {
-      appearance: none;
-      -webkit-appearance: none;
-      width: 22px;
-      height: 22px;
-      border-radius: 7px;
-      border: 1.5px solid rgba(255, 255, 255, .2);
-      background: rgba(255, 255, 255, .04);
-      flex-shrink: 0;
-      margin-top: 1px;
-      cursor: pointer;
-      position: relative;
-      transition: all .2s ease;
-    }
-    .check-item input[type="checkbox"]:checked {
-      background: linear-gradient(135deg, var(--neon-blue), var(--neon-purple));
-      border-color: transparent;
-      box-shadow: 0 0 15px rgba(0, 212, 255, .5);
-    }
-    .check-item input[type="checkbox"]:checked::after {
-      content: '';
-      position: absolute;
-      top: 4px;
-      left: 7px;
-      width: 6px;
-      height: 11px;
-      border: solid #fff;
-      border-width: 0 2.5px 2.5px 0;
-      transform: rotate(45deg);
-    }
-    .check-item span { color: var(--text); }
-    .check-item strong { color: #fff; font-weight: 600; }
-
-    /* ====== BOTONES ====== */
-    .btn {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      gap: 8px;
-      width: 100%;
-      padding: 16px 20px;
-      border: none;
-      border-radius: var(--radius-sm);
-      font-size: .95rem;
-      font-weight: 700;
-      cursor: pointer;
-      text-decoration: none;
-      transition: all .25s cubic-bezier(.4, 0, .2, 1);
-      margin-top: 12px;
-      font-family: inherit;
-      letter-spacing: .3px;
-      position: relative;
-      overflow: hidden;
-    }
-    .btn:active { transform: scale(.98); }
-
-    .btn-primary {
-      background: linear-gradient(135deg, var(--neon-blue), #0095ff);
-      color: #001219;
-      box-shadow: 0 0 24px rgba(0, 212, 255, .35), 0 8px 20px rgba(0, 0, 0, .4);
-    }
-    .btn-primary:hover {
-      box-shadow: 0 0 36px rgba(0, 212, 255, .55), 0 8px 24px rgba(0, 0, 0, .5);
-    }
-
-    .btn-accent {
-      background: linear-gradient(135deg, var(--neon-purple), #7c3aed);
-      color: #fff;
-      box-shadow: 0 0 24px rgba(168, 85, 247, .35), 0 8px 20px rgba(0, 0, 0, .4);
-    }
-    .btn-accent:hover {
-      box-shadow: 0 0 36px rgba(168, 85, 247, .55), 0 8px 24px rgba(0, 0, 0, .5);
-    }
-
-    .btn-outline {
-      background: transparent;
-      color: var(--neon-blue);
-      border: 1px solid rgba(0, 212, 255, .35);
-      backdrop-filter: blur(10px);
-    }
-    .btn-outline:hover {
-      background: rgba(0, 212, 255, .08);
-      border-color: rgba(0, 212, 255, .6);
-      box-shadow: 0 0 20px rgba(0, 212, 255, .2);
-    }
-
-    .btn-sm {
-      padding: 12px 18px;
-      font-size: .85rem;
-      width: auto;
-    }
-
-    /* ====== STATUS / ASESORÍA ====== */
-    .status {
-      display: flex;
-      align-items: flex-start;
-      gap: 10px;
-      padding: 14px 16px;
-      border-radius: var(--radius-sm);
-      font-size: .88rem;
-      font-weight: 500;
-      margin-top: 10px;
-      line-height: 1.45;
-      border: 1px solid;
-      backdrop-filter: blur(10px);
-    }
-    .status.ok {
-      background: rgba(34, 227, 154, .08);
-      color: var(--ok);
-      border-color: rgba(34, 227, 154, .25);
-      box-shadow: 0 0 20px rgba(34, 227, 154, .1);
-    }
-    .status.warn {
-      background: rgba(255, 181, 71, .08);
-      color: var(--warn);
-      border-color: rgba(255, 181, 71, .25);
-      box-shadow: 0 0 20px rgba(255, 181, 71, .1);
-    }
-    .status.danger {
-      background: rgba(255, 77, 109, .08);
-      color: var(--danger);
-      border-color: rgba(255, 77, 109, .25);
-      box-shadow: 0 0 20px rgba(255, 77, 109, .1);
-    }
-    .status strong { color: inherit; font-weight: 700; }
-
-    .advice {
-      background: rgba(0, 212, 255, .05);
-      border-left: 2px solid var(--neon-blue);
-      padding: 14px 16px;
-      border-radius: 0 var(--radius-sm) var(--radius-sm) 0;
-      margin: 14px 0 4px;
-      font-size: .88rem;
-      color: var(--text-muted);
-      box-shadow: -4px 0 20px rgba(0, 212, 255, .1);
-    }
-    .advice strong { color: var(--neon-blue); font-weight: 600; }
-
-    /* ====== FOTOS ====== */
-    input[type="file"] {
-      width: 100%;
-      padding: 12px;
-      border: 1.5px dashed var(--glass-border);
-      border-radius: var(--radius-sm);
-      font-size: .82rem;
-      background: rgba(255, 255, 255, .02);
-      color: var(--text-muted);
-      cursor: pointer;
-      transition: all .25s ease;
-    }
-    input[type="file"]:hover {
-      border-color: rgba(0, 212, 255, .4);
-      background: rgba(0, 212, 255, .04);
-    }
-    input[type="file"]::file-selector-button {
-      background: rgba(0, 212, 255, .15);
-      color: var(--neon-blue);
-      border: none;
-      padding: 8px 14px;
+      padding: 10px 12px;
+      border: 1px solid #ccc;
       border-radius: 8px;
-      font-weight: 600;
-      font-size: .8rem;
-      margin-right: 12px;
-      cursor: pointer;
-      transition: all .2s;
-    }
-    input[type="file"]::file-selector-button:hover {
-      background: rgba(0, 212, 255, .25);
+      font-size: 16px;
+      font-family: inherit;
+      background: #fff;
+      transition: border 0.2s, background 0.2s;
+      scroll-margin-top: 100px; /* evita que un header fijo tape el campo */
     }
 
-    .photo-preview {
+    textarea {
+      resize: vertical;
+      min-height: 100px;
+    }
+
+    .campo-error {
+      border: 2px solid #e53935 !important;
+      background: #ffebee !important;
+    }
+
+    .error-msg {
+      color: #e53935;
+      font-size: 14px;
+      margin-top: 4px;
+      display: none;
+    }
+
+    .error-msg.visible {
+      display: block;
+    }
+
+    .checkbox-group {
       display: flex;
-      gap: 10px;
-      flex-wrap: wrap;
-      margin-top: 12px;
-    }
-    .photo-preview img {
-      width: 78px;
-      height: 78px;
-      object-fit: cover;
-      border-radius: var(--radius-sm);
-      border: 1.5px solid rgba(0, 212, 255, .35);
-      box-shadow: 0 0 15px rgba(0, 212, 255, .2);
+      align-items: flex-start;
+      gap: 8px;
     }
 
-    /* ====== COLLAPSIBLE ====== */
-    .collapsible {
-      background: rgba(255, 255, 255, .025);
-      border: 1px solid var(--glass-border);
-      border-radius: var(--radius-sm);
-      padding: 14px 16px;
+    .checkbox-group input[type="checkbox"] {
+      margin-top: 4px;
+      width: 18px;
+      height: 18px;
+      flex-shrink: 0;
+    }
+
+    .checkbox-group label {
+      font-weight: 400;
+      margin: 0;
+    }
+
+    button {
+      background: #25D366;
+      color: white;
+      border: none;
+      padding: 14px 20px;
+      border-radius: 8px;
+      font-size: 17px;
+      font-weight: 600;
+      cursor: pointer;
+      width: 100%;
+      transition: background 0.2s;
       margin-top: 10px;
-      font-size: .87rem;
-      transition: all .25s ease;
-    }
-    .collapsible:hover {
-      background: rgba(255, 255, 255, .04);
-    }
-    .collapsible summary {
-      font-weight: 600;
-      color: var(--text);
-      cursor: pointer;
-      list-style: none;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 10px;
-    }
-    .collapsible summary::after {
-      content: '+';
-      color: var(--neon-blue);
-      font-size: 1.2rem;
-      font-weight: 300;
-      transition: transform .25s;
-    }
-    .collapsible[open] summary::after {
-      content: '−';
-      transform: rotate(180deg);
-    }
-    .collapsible summary::-webkit-details-marker { display: none; }
-    .collapsible[open] summary { margin-bottom: 12px; color: var(--neon-blue); }
-    .collapsible ul { padding-left: 20px; margin-top: 6px; }
-    .collapsible li { margin-bottom: 6px; }
-    .collapsible p { margin-bottom: 6px; font-size: .86rem; }
-    .collapsible strong { color: var(--neon-blue); }
-
-    /* ====== OTROS ====== */
-    .hidden { display: none !important; }
-
-    .loader {
-      display: inline-block;
-      width: 14px;
-      height: 14px;
-      border: 2px solid rgba(0, 0, 0, .2);
-      border-top-color: #001219;
-      border-radius: 50%;
-      animation: spin .6s linear infinite;
-    }
-    @keyframes spin { to { transform: rotate(360deg); } }
-
-    .footer-note {
-      text-align: center;
-      font-size: .74rem;
-      color: var(--text-dim);
-      margin-top: 28px;
-      padding: 0 20px;
-      letter-spacing: .3px;
-      line-height: 1.6;
     }
 
-    /* Animación de entrada */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(12px); }
-      to { opacity: 1; transform: translateY(0); }
+    button:hover {
+      background: #1ebe5d;
     }
-    .header, .card {
-      animation: fadeUp .5s ease both;
-    }
-    .card:nth-of-type(1) { animation-delay: .05s; }
-    .card:nth-of-type(2) { animation-delay: .1s; }
 
-    @media (min-width: 500px) {
-      body { max-width: 520px; margin: 0 auto; }
+    button:active {
+      transform: scale(0.98);
     }
   </style>
 </head>
 <body>
 
-<!-- ===== ENCABEZADO CON LOGO ===== -->
-<div class="header">
-  <div class="badge">CDMX · Área Metropolitana</div>
-  <div class="logo-wrap">
-    <img
-      src="https://i.ibb.co/6Jng0Z5S/29d572b7-060d-4258-a958-7776e1c86054.jpg"
-      alt="Logo Asesor de Verificación"
-      class="logo"
-      onerror="this.parentElement.style.display='none';"
-    >
-  </div>
-  <h1>Asesor de Verificación</h1>
-  <p>INVEA · Cofepris · Protección Civil</p>
-</div>
+  <h1>Enviar reporte</h1>
 
-<!-- ===== ASESORÍA INICIAL ===== -->
-<div class="card">
-  <h2>Antes de comenzar</h2>
-  <p>Estás en tu derecho de solicitar al verificador que se identifique. Conserva la calma y sigue esta guía. Al final podrás enviar un reporte completo a tu abogado.</p>
-  <div class="advice">
-    <strong>Recuerda:</strong> Solicita la credencial vigente, la orden de verificación por escrito con firma autógrafa y, si lo deseas, nombra dos testigos.
-  </div>
-</div>
+  <form id="reporteForm" novalidate>
+    <div class="campo">
+      <label for="nombre">Nombre completo *</label>
+      <input type="text" id="nombre" name="nombre" data-label="Nombre completo" required>
+      <div class="error-msg">Este campo es obligatorio</div>
+    </div>
 
-<!-- ===== FORMULARIO PRINCIPAL ===== -->
-<form id="verificacionForm" class="card" onsubmit="return false;">
+    <div class="campo">
+      <label for="telefono">Teléfono *</label>
+      <input type="tel" id="telefono" name="telefono" data-label="Teléfono" required>
+      <div class="error-msg">Este campo es obligatorio</div>
+    </div>
 
-  <h2>Datos de la autoridad</h2>
+    <div class="campo">
+      <label for="email">Correo electrónico</label>
+      <input type="email" id="email" name="email" data-label="Correo electrónico">
+      <div class="error-msg">Ingresa un correo válido</div>
+    </div>
 
-  <label for="autoridad">Autoridad que se presenta</label>
-  <select id="autoridad" required>
-    <option value="">— Selecciona —</option>
-    <option value="INVEA">INVEA (Verificación Administrativa)</option>
-    <option value="Cofepris">Cofepris (Riesgos Sanitarios)</option>
-    <option value="Protección Civil">Protección Civil</option>
-    <option value="Otra">Otra / No estoy seguro</option>
-  </select>
+    <div class="campo">
+      <label for="categoria">Categoría *</label>
+      <select id="categoria" name="categoria" data-label="Categoría" required>
+        <option value="">Selecciona una opción</option>
+        <option value="Soporte">Soporte</option>
+        <option value="Ventas">Ventas</option>
+        <option value="Queja">Queja</option>
+        <option value="Sugerencia">Sugerencia</option>
+      </select>
+      <div class="error-msg">Este campo es obligatorio</div>
+    </div>
 
-  <label for="nombreEstablecimiento">Nombre del establecimiento</label>
-  <input type="text" id="nombreEstablecimiento" placeholder="Ej. Farmacia del Valle" required>
+    <div class="campo">
+      <label for="detalle">Detalle del reporte *</label>
+      <textarea id="detalle" name="detalle" data-label="Detalle" rows="4" required></textarea>
+      <div class="error-msg">Este campo es obligatorio</div>
+    </div>
 
-  <label for="nombreVerificador">Nombre del verificador</label>
-  <input type="text" id="nombreVerificador" placeholder="Ej. Juan Pérez López">
+    <div class="campo">
+      <div class="checkbox-group">
+        <input type="checkbox" id="acepto" name="acepto" data-label="Acepto términos" required>
+        <label for="acepto">Acepto los términos y condiciones *</label>
+      </div>
+      <div class="error-msg">Debes aceptar los términos</div>
+    </div>
 
-  <label for="numeroCredencial">Credencial o folio de la orden</label>
-  <input type="text" id="numeroCredencial" placeholder="Ej. INVEA-12345">
+    <button type="button" id="btnEnviar">Enviar a WhatsApp</button>
+  </form>
 
-  <h2 style="margin-top:28px;">Preguntas de verificación</h2>
-  <p style="margin-bottom:14px;">Marca las casillas que apliquen:</p>
+  <script>
+    // ============================================================
+    // CONFIGURACIÓN
+    // Cambia este número por tu WhatsApp (código de país + número, sin +, espacios ni guiones)
+    // Ejemplo México: 521234567890
+    // ============================================================
+    const TELEFONO_WHATSAPP = "521234567890";
 
-  <div class="check-item">
-    <input type="checkbox" id="chkCredencial" onchange="evaluar()">
-    <span>El verificador <strong>se identificó con credencial vigente</strong> (con foto y datos visibles).</span>
-  </div>
-  <div class="check-item">
-    <input type="checkbox" id="chkFotoCoincide" onchange="evaluar()">
-    <span>La <strong>foto de la credencial coincide</strong> con la persona que se presenta.</span>
-  </div>
-  <div class="check-item">
-    <input type="checkbox" id="chkOrdenEscrita" onchange="evaluar()">
-    <span>Presentó una <strong>orden de verificación por escrito</strong> con firma autógrafa.</span>
-  </div>
-  <div class="check-item">
-    <input type="checkbox" id="chkObjetoFundamento" onchange="evaluar()">
-    <span>La orden <strong>especifica el objeto, alcance y fundamento legal</strong>.</span>
-  </div>
-  <div class="check-item">
-    <input type="checkbox" id="chkCopiaOrden" onchange="evaluar()">
-    <span>Me <strong>entregaron copia de la orden</strong> de verificación.</span>
-  </div>
-  <div class="check-item">
-    <input type="checkbox" id="chkTestigos" onchange="evaluar()">
-    <span>Me permitieron <strong>nombrar dos testigos</strong> (o no los solicité).</span>
-  </div>
+    const form = document.getElementById("reporteForm");
+    const btnEnviar = document.getElementById("btnEnviar");
 
-  <div id="asesoriaDinamica"></div>
+    // ------------------------------------------------------------
+    // Utilidades de validación
+    // ------------------------------------------------------------
 
-  <h2 style="margin-top:28px;">Ubicación del establecimiento</h2>
-  <p style="margin-bottom:10px;">Obtén tu ubicación para incluirla en el reporte:</p>
-  <button type="button" class="btn btn-outline btn-sm" id="btnUbicacion" onclick="obtenerUbicacion()">
-    📍 Obtener mi ubicación
-  </button>
-  <div id="ubicacionStatus" class="status hidden"></div>
-  <input type="hidden" id="latitud" value="">
-  <input type="hidden" id="longitud" value="">
+    function estaVacio(el) {
+      if (el.type === "checkbox" || el.type === "radio") {
+        return !el.checked;
+      }
+      if (el.tagName === "SELECT") {
+        return el.value === "";
+      }
+      return !el.value.trim();
+    }
 
-  <h2 style="margin-top:28px;">Fotografías de evidencia</h2>
-  <p style="margin-bottom:12px;">Toma foto de la credencial y de la orden de verificación:</p>
+    function obtenerCamposRequeridos() {
+      return [...form.querySelectorAll("[required]")];
+    }
 
-  <label for="fotoCredencial">Credencial del verificador</label>
-  <input type="file" id="fotoCredencial" accept="image/*" capture="environment" onchange="previewImage(this, 'previewCredencial')">
-  <div id="previewCredencial" class="photo-preview"></div>
+    function limpiarErrores(campos) {
+      campos.forEach(c => {
+        c.classList.remove("campo-error");
+        const errorMsg = c.closest(".campo")?.querySelector(".error-msg");
+        if (errorMsg) errorMsg.classList.remove("visible");
+      });
+    }
 
-  <label for="fotoOrden">Orden de verificación</label>
-  <input type="file" id="fotoOrden" accept="image/*" capture="environment" onchange="previewImage(this, 'previewOrden')">
-  <div id="previewOrden" class="photo-preview"></div>
+    function marcarError(campo) {
+      campo.classList.add("campo-error");
+      const errorMsg = campo.closest(".campo")?.querySelector(".error-msg");
+      if (errorMsg) errorMsg.classList.add("visible");
+    }
 
-  <h2 style="margin-top:28px;">Enviar reporte</h2>
-  <p style="margin-bottom:12px;">Genera un mensaje detallado para tu abogado. Las fotos deberás adjuntarlas manualmente en WhatsApp.</p>
+    function irAlPrimerFaltante(campo) {
+      // Scroll suave hasta el campo
+      campo.scrollIntoView({
+        behavior: "smooth",
+        block: "center"
+      });
 
-  <label for="numeroAbogado">WhatsApp del abogado (destino)</label>
-  <input type="tel" id="numeroAbogado" value="525652663610" readonly>
+      // Esperar a que termine el scroll y enfocar sin mover de nuevo
+      setTimeout(() => {
+        campo.focus({ preventScroll: true });
+      }, 450);
+    }
 
-  <button type="button" class="btn btn-primary" onclick="enviarReporte()">
-    📲 Enviar reporte al Abogado
-  </button>
-  <button type="button" class="btn btn-accent" onclick="compartirApp()">
-    🔗 Compartir esta aplicación
-  </button>
-</form>
+    // ------------------------------------------------------------
+    // Construir mensaje para WhatsApp
+    // ------------------------------------------------------------
 
-<!-- ===== INFORMACIÓN ADICIONAL ===== -->
-<div class="card">
-  <h2>Información útil</h2>
-  <details class="collapsible">
-    <summary>⚖️ Conoce tus derechos</summary>
-    <ul>
-      <li>Solicitar la identificación del verificador y confirmar que la foto coincida.</li>
-      <li>Corroborar que la orden de verificación tenga firma autógrafa.</li>
-      <li>Conocer el propósito y fundamento legal de la visita.</li>
-      <li>Recibir copia de la orden de verificación.</li>
-      <li>Proponer dos testigos que presencien todo el desarrollo.</li>
-      <li>Realizar las manifestaciones que a tu derecho convengan.</li>
-    </ul>
-  </details>
-  <details class="collapsible">
-    <summary>📞 Teléfonos de denuncia</summary>
-    <p>INVEA: <strong>55 4737 7700</strong></p>
-    <p>Cofepris: <strong>800 033 5050</strong></p>
-    <p>Protección Civil CDMX: <strong>55 1519 1864</strong></p>
-  </details>
-</div>
+    function construirMensaje() {
+      const lineas = [];
+      const campos = [...form.querySelectorAll("[name]")];
 
-<div class="footer-note">
-  Esta aplicación es una guía orientativa.<br>No sustituye la asesoría legal profesional.
-</div>
+      campos.forEach(el => {
+        const label = el.dataset.label || el.name;
+        let valor = "";
 
-<script>
-// ===== VARIABLES GLOBALES =====
-let ubicacionObtenida = false;
+        if (el.type === "checkbox") {
+          valor = el.checked ? "Sí" : "No";
+        } else if (el.type === "radio") {
+          if (el.checked) {
+            valor = el.value;
+          } else {
+            return; // omitir radios no seleccionados
+          }
+        } else {
+          valor = el.value.trim();
+        }
 
-// ===== ASESORÍA DINÁMICA =====
-function evaluar() {
-  const credencial = document.getElementById('chkCredencial').checked;
-  const fotoCoincide = document.getElementById('chkFotoCoincide').checked;
-  const ordenEscrita = document.getElementById('chkOrdenEscrita').checked;
-  const objetoFundamento = document.getElementById('chkObjetoFundamento').checked;
-  const copiaOrden = document.getElementById('chkCopiaOrden').checked;
-  const testigos = document.getElementById('chkTestigos').checked;
+        // Si no es requerido y está vacío, se omite del mensaje
+        if (!el.required && valor === "") return;
 
-  const div = document.getElementById('asesoriaDinamica');
-  let mensajes = [];
+        lineas.push(`${label}: ${valor}`);
+      });
 
-  if (!credencial) {
-    mensajes.push({
-      tipo: 'danger',
-      texto: '⚠️ <strong>No se identificó correctamente.</strong> Solicita la credencial vigente con foto. Si se niega, puedes llamar a la línea de denuncia.'
+      return lineas.join("\n");
+    }
+
+    // ------------------------------------------------------------
+    // Función principal
+    // ------------------------------------------------------------
+
+    function enviarReporte() {
+      const camposRequeridos = obtenerCamposRequeridos();
+      limpiarErrores(camposRequeridos);
+
+      // Detectar campos vacíos
+      const faltantes = camposRequeridos.filter(estaVacio);
+
+      if (faltantes.length > 0) {
+        // Marcar todos los faltantes
+        faltantes.forEach(marcarError);
+
+        // Llevar al primero
+        irAlPrimerFaltante(faltantes[0]);
+
+        // Aviso opcional con todos los campos que faltan
+        const nombres = faltantes.map(c => c.dataset.label || c.name).join(", ");
+        alert(`Faltan los siguientes datos: ${nombres}`);
+
+        return; // No se envía nada
+      }
+
+      // Todo completo: construir mensaje y abrir WhatsApp
+      const mensaje = construirMensaje();
+      const url = `https://wa.me/${TELEFONO_WHATSAPP}?text=${encodeURIComponent(mensaje)}`;
+
+      window.open(url, "_blank");
+    }
+
+    // ------------------------------------------------------------
+    // Eventos
+    // ------------------------------------------------------------
+
+    btnEnviar.addEventListener("click", enviarReporte);
+
+    // Permitir enviar con Enter (excepto en textarea)
+    form.addEventListener("keydown", (e) => {
+      if (e.key === "Enter" && e.target.tagName !== "TEXTAREA") {
+        e.preventDefault();
+        enviarReporte();
+      }
     });
-  } else if (!fotoCoincide) {
-    mensajes.push({
-      tipo: 'warn',
-      texto: '⚠️ La foto de la credencial no coincide. Pide una explicación y anota el nombre completo del verificador.'
-    });
-  }
-
-  if (!ordenEscrita) {
-    mensajes.push({
-      tipo: 'danger',
-      texto: '🚫 <strong>No presentó orden de verificación por escrito.</strong> Sin este documento, la visita no es procedente. Puedes negar el acceso.'
-    });
-  } else if (!objetoFundamento) {
-    mensajes.push({
-      tipo: 'warn',
-      texto: '📄 La orden no especifica claramente el objeto o fundamento legal. Solicita que se detalle antes de continuar.'
-    });
-  }
-
-  if (!copiaOrden) {
-    mensajes.push({
-      tipo: 'warn',
-      texto: '📑 Debes recibir copia de la orden. Si no te la entregan, anótalo en tu reporte.'
-    });
-  }
-
-  if (!testigos) {
-    mensajes.push({
-      tipo: 'warn',
-      texto: '👥 Tienes derecho a nombrar dos testigos. Si no lo hiciste, aún puedes solicitar que se designen.'
-    });
-  }
-
-  if (mensajes.length === 0) {
-    div.innerHTML = '<div class="status ok">✅ Todo en orden. La verificación parece proceder conforme a derecho.</div>';
-  } else {
-    div.innerHTML = mensajes.map(m =>
-      `<div class="status ${m.tipo}">${m.texto}</div>`
-    ).join('');
-  }
-}
-
-// ===== OBTENER UBICACIÓN =====
-function obtenerUbicacion() {
-  const btn = document.getElementById('btnUbicacion');
-  const statusDiv = document.getElementById('ubicacionStatus');
-  btn.disabled = true;
-  btn.innerHTML = '<span class="loader"></span> Obteniendo…';
-  statusDiv.className = 'status hidden';
-
-  if (!navigator.geolocation) {
-    statusDiv.className = 'status danger';
-    statusDiv.innerHTML = '❌ Tu navegador no soporta geolocalización.';
-    btn.disabled = false;
-    btn.innerHTML = '📍 Obtener mi ubicación';
-    return;
-  }
-
-  navigator.geolocation.getCurrentPosition(
-    (pos) => {
-      const lat = pos.coords.latitude;
-      const lon = pos.coords.longitude;
-      document.getElementById('latitud').value = lat;
-      document.getElementById('longitud').value = lon;
-      ubicacionObtenida = true;
-
-      statusDiv.className = 'status ok';
-      statusDiv.innerHTML = `✅ Ubicación obtenida: ${lat.toFixed(6)}, ${lon.toFixed(6)}<br><a href="https://maps.google.com/?q=${lat},${lon}" target="_blank" style="color:#00d4ff; text-decoration:underline;">Ver en mapa</a>`;
-      btn.disabled = false;
-      btn.innerHTML = '📍 Actualizar ubicación';
-    },
-    (err) => {
-      statusDiv.className = 'status danger';
-      let msg = '❌ Error al obtener ubicación.';
-      if (err.code === 1) msg = '❌ Permiso denegado. Activa la ubicación en tu navegador.';
-      if (err.code === 2) msg = '❌ Ubicación no disponible. Verifica tu GPS.';
-      if (err.code === 3) msg = '⏱️ Tiempo de espera agotado. Intenta de nuevo.';
-      statusDiv.innerHTML = msg;
-      btn.disabled = false;
-      btn.innerHTML = '📍 Obtener mi ubicación';
-    },
-    { enableHighAccuracy: true, timeout: 10000, maximumAge: 60000 }
-  );
-}
-
-// ===== VISTA PREVIA DE IMÁGENES =====
-function previewImage(input, previewId) {
-  const preview = document.getElementById(previewId);
-  preview.innerHTML = '';
-  if (input.files && input.files[0]) {
-    const reader = new FileReader();
-    reader.onload = (e) => {
-      const img = document.createElement('img');
-      img.src = e.target.result;
-      img.alt = 'Evidencia';
-      preview.appendChild(img);
-    };
-    reader.readAsDataURL(input.files[0]);
-  }
-}
-
-// ===== ENVIAR REPORTE A WHATSAPP =====
-function enviarReporte() {
-  const autoridad = document.getElementById('autoridad').value;
-  const nombreEst = document.getElementById('nombreEstablecimiento').value.trim();
-  const nombreVer = document.getElementById('nombreVerificador').value.trim();
-  const numCred = document.getElementById('numeroCredencial').value.trim();
-  const lat = document.getElementById('latitud').value;
-  const lon = document.getElementById('longitud').value;
-  const numeroAbogado = document.getElementById('numeroAbogado').value.trim();
-
-  if (!autoridad) { alert('Selecciona la autoridad que se presenta.'); return; }
-  if (!nombreEst) { alert('Ingresa el nombre del establecimiento.'); return; }
-  if (!numeroAbogado) { alert('Ingresa el número de WhatsApp del abogado.'); return; }
-
-  let msg = `🛡️ *REPORTE DE VERIFICACIÓN*\n\n`;
-  msg += `*Autoridad:* ${autoridad}\n`;
-  msg += `*Establecimiento:* ${nombreEst}\n`;
-  if (nombreVer) msg += `*Verificador:* ${nombreVer}\n`;
-  if (numCred) msg += `*Credencial/Folio:* ${numCred}\n`;
-
-  const checks = [
-    { id: 'chkCredencial', label: 'Se identificó con credencial' },
-    { id: 'chkFotoCoincide', label: 'Foto coincide' },
-    { id: 'chkOrdenEscrita', label: 'Orden por escrito' },
-    { id: 'chkObjetoFundamento', label: 'Objeto y fundamento claros' },
-    { id: 'chkCopiaOrden', label: 'Recibió copia de orden' },
-    { id: 'chkTestigos', label: 'Permitió testigos' }
-  ];
-  msg += `\n*Checklist:*\n`;
-  checks.forEach(c => {
-    const checked = document.getElementById(c.id).checked;
-    msg += `${checked ? '✅' : '❌'} ${c.label}\n`;
-  });
-
-  if (lat && lon) {
-    msg += `\n📍 *Ubicación:* https://maps.google.com/?q=${lat},${lon}\n`;
-  } else {
-    msg += `\n📍 *Ubicación:* No obtenida\n`;
-  }
-
-  msg += `\n📸 *Fotos:* Adjuntar credencial y orden en este chat.`;
-
-  const url = `https://wa.me/${numeroAbogado}?text=${encodeURIComponent(msg)}`;
-  window.open(url, '_blank');
-}
-
-// ===== COMPARTIR APP =====
-function compartirApp() {
-  const url = window.location.href;
-  const msg = `🛡️ Usa esta guía durante una verificación de INVEA, Cofepris o Protección Civil. Te asesora y genera un reporte para tu abogado: ${url}`;
-  const wa = `https://wa.me/?text=${encodeURIComponent(msg)}`;
-  window.open(wa, '_blank');
-}
-
-document.addEventListener('DOMContentLoaded', () => {
-  evaluar();
-});
-</script>
-
+  </script>
 </body>
 </html>
